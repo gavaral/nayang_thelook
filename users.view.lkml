@@ -19,6 +19,17 @@ dimension: age_group {
   style: integer
 }
 
+dimension: days_since_signup {
+  type: number
+  sql: datediff(days, ${created_date}, current_date) ;;
+}
+
+
+dimension: is_new_user {
+    type: yesno
+    sql:  ${days_since_signup} <= 90 ;;
+}
+
 
   dimension: city {
     type: string
@@ -64,6 +75,12 @@ dimension: age_group {
     type: string
     sql: ${TABLE}."LAST_NAME" ;;
   }
+
+  dimension: full_name {
+      type: string
+      sql: ${last_name} ||', '||${first_name} ;;
+  }
+
 
   dimension: latitude {
     type: number
